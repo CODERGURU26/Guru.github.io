@@ -831,19 +831,27 @@
 			<div class="contact-form">
 				<div class="form-group">
 					<label>Your Name</label>
-					<input type="text" placeholder="John Doe" />
+					<input type="text" id="f-name" placeholder="John Doe" />
 				</div>
 				<div class="form-group">
 					<label>Email Address</label>
-					<input type="email" placeholder="john@example.com" />
+					<input type="email" id="f-email" placeholder="john@example.com" />
 				</div>
 				<div class="form-group">
 					<label>Message</label>
-					<textarea placeholder="Hi Gururaj, I'd love to connect about..."></textarea>
+					<textarea id="f-message" placeholder="Hi Gururaj, I'd love to connect about..."></textarea>
 				</div>
-				<button class="btn-form" onclick="alert('Thanks for reaching out! Please connect via LinkedIn or GitHub.')">
+				<button class="btn-form" onclick="sendForm(event)" id="f-submit">
 					<i class="fas fa-paper-plane"></i> Send Message
 				</button>
+
+				<p id="form-success" style="display:none; color:green;">
+					Message sent successfully!
+				</p>
+
+				<p id="form-error" style="display:none; color:red;">
+					Something went wrong. Please try again.
+				</p>
 			</div>
 
 		</div>
