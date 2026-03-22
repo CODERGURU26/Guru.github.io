@@ -856,6 +856,59 @@
 </footer>
 
 <script>
+
+const FORMSPREE_ID = "mqeyowda";
+ 
+async function sendForm(e) {
+	e.preventDefault();
+ 
+	const name    = document.getElementById('f-name').value.trim();
+	const email   = document.getElementById('f-email').value.trim();
+	const message = document.getElementById('f-message').value.trim();
+	const btn     = document.getElementById('f-submit');
+	const success = document.getElementById('form-success');
+	const error   = document.getElementById('form-error');
+ 
+	if (!name || !email || !message) {
+		alert('Please fill in all fields.');
+		return;
+	}
+ 
+	// Loading state
+	btn.disabled = true;
+	btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+	success.style.display = 'none';
+	error.style.display   = 'none';
+ 
+	try {
+		const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+			body: JSON.stringify({ name, email, message })
+		});
+ 
+		if (res.ok) {
+			// ✅ Success
+			success.style.display = 'block';
+			document.getElementById('f-name').value    = '';
+			document.getElementById('f-email').value   = '';
+			document.getElementById('f-message').value = '';
+			btn.innerHTML = '<i class="fas fa-check"></i> Sent!';
+			setTimeout(() => {
+				btn.disabled = false;
+				btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
+			}, 3000);
+		} else {
+			throw new Error('Server error');
+		}
+	} catch (err) {
+		error.style.display = 'block';
+		btn.disabled = false;
+		btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
+	}
+}
+ 
+// ─── SCROLL FADE-IN ───────────────────────────────────────
 const io = new IntersectionObserver((entries) => {
 	entries.forEach(e => {
 		if (e.isIntersecting) {
@@ -865,7 +918,7 @@ const io = new IntersectionObserver((entries) => {
 		}
 	});
 }, { threshold: 0.1 });
-
+ 
 document.querySelectorAll('.project-card, .skill-card, .stat-card, .contact-link').forEach(el => {
 	el.style.opacity = '0';
 	el.style.transform = 'translateY(22px)';
